@@ -1,0 +1,8 @@
+.history
+build
+
+**/*.md
+**/*.svg
+**/*.html
+
+package.json

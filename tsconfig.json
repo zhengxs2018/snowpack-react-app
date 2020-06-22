@@ -1,0 +1,29 @@
+{
+  "extends": "@snowpack/app-scripts-react/tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "*": ["web_modules/.types/*"],
+      "src/*": ["src/*"],
+      "public/*": ["public/*"]
+    },
+
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "allowJs": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src", "types"],
+  "exclude": ["node_modules"]
+}

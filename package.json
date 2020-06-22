@@ -1,0 +1,54 @@
+{
+  "name": "snowpack-react-app",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "snowpack dev",
+    "build": "snowpack build",
+    "test": "jest",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
+    "lint": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\""
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "lodash-es": "^4.17.15",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@snowpack/app-scripts-react": "^1.2.0",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.3",
+    "@types/lodash-es": "^4.17.3",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-redux": "^7.1.9",
+    "@types/react-router-config": "^5.0.1",
+    "@types/react-router-dom": "^5.1.5",
+    "babel-plugin-transform-async-to-promises": "^0.8.15",
+    "better-mock": "^0.2.5",
+    "jest": "^25.4.0",
+    "lint-staged": "^10.2.11",
+    "node-sass": "^4.14.1",
+    "prettier": "^2.0.0",
+    "snowpack": "^2.5.0",
+    "typescript": "^3.8.0",
+    "yorkie": "^2.0.0"
+  },
+  "author": "zhengxs2018 <zhengxs2018@foxmail.com>",
+  "license": "MIT"
+}

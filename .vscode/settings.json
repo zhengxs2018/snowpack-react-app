@@ -1,0 +1,31 @@
+{
+  "telemetry.enableCrashReporter": false,
+  "telemetry.enableTelemetry": false,
+  "grunt.autoDetect": "off",
+  "gulp.autoDetect": "off",
+  "jake.autoDetect": "off",
+  "search.followSymlinks": false,
+  "search.exclude": {
+    "**/.tsbuildinfo": true,
+    "**/.tsbuildinfo.*": true,
+    "**/.history": true,
+    "**/build/**": true
+  },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1500,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.history": true
+  },
+  "files.watcherExclude": {
+    "**/.history/**": true,
+    "**/build/**": true
+  },
+  "editor.minimap.enabled": false,
+  "cSpell.words": ["devtools"],
+  "cSpell.ignoreWords": ["tslib"],
+  "cSpell.ignorePaths": [".history", ".vscode", "build", "package-lock.json", "yarn.lock"]
+}

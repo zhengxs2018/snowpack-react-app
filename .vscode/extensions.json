@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "xyz.local-history",
+    "editorconfig.editorconfig",
+    "christian-kohler.npm-intellisense",
+    "axetroy.vscode-npm-import-package-version"
+  ]
+}
