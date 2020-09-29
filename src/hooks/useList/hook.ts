@@ -62,7 +62,7 @@ export function useList<T>(options: UseListOptions<T>) {
   }
 
   function clear() {
-    setState((state) => ({ ...state, items: [] }))
+    setState({ items: [], page: 1, pageSize: 10, total: 0 })
   }
 
   async function load(args?: Partial<LoadArgs>, options?: LoadOptions) {
