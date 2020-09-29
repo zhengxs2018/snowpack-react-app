@@ -51,6 +51,12 @@ export type DispatchRequest<T> = (args: LoadArgs, options: DispatchRequestOption
 export interface UseListOptions<T> extends Partial<UseListState<T>> {
   mode?: ListChangeMode
   loading?: boolean
+  /**
+   * 自动发起请求
+   *
+   * @todo: 用 useEffect 来做初始化钩子？
+   */
+  // autoLoad?: boolean
   dispatchRequest: DispatchRequest<T>
 }
 

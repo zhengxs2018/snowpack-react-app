@@ -58,7 +58,8 @@ export function useList<T>(options: UseListOptions<T>) {
   }
 
   function search(args?: Partial<LoadArgs>) {
-    return load(args, { force: true })
+    // 默认，搜索就跳转回第一页
+    return load({ page: 1, ...args }, { force: true })
   }
 
   function clear() {
