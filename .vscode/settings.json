@@ -9,7 +9,9 @@
     "**/.tsbuildinfo": true,
     "**/.tsbuildinfo.*": true,
     "**/.history": true,
-    "**/build/**": true
+    "**/build/**": true,
+    "**/yarn.lock": true,
+    "**/package.json": true
   },
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1500,
@@ -25,7 +27,7 @@
     "**/build/**": true
   },
   "editor.minimap.enabled": false,
-  "cSpell.words": ["devtools"],
+  "cSpell.words": ["antd", "devtools"],
   "cSpell.ignoreWords": ["tslib"],
   "cSpell.ignorePaths": [".history", ".vscode", "build", "package-lock.json", "yarn.lock"]
 }

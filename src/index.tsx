@@ -1,26 +1,23 @@
-import './styles/reset.css'
+import 'antd/dist/antd.css'
+
+import axios from 'axios'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import './mocks/setup'
-
-import { loadAuthStatus, loadAllCategories } from './store/actions/app'
+import './mocks/index'
 
 import App from './App'
 
-loadAuthStatus()
-loadAllCategories()
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-)
+ReactDOM.render(<App />, document.getElementById('root'))
 
 // Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
 // Learn more: https://www.snowpack.dev/#hot-module-replacement
 if (import.meta.hot) {
   import.meta.hot.accept()
+}
+
+if (import.meta.env.NODE_ENV === 'development') {
+  // @ts-ignore
+  window.axios = axios
 }

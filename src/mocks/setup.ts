@@ -1,4 +1,5 @@
-import './endpoints/me'
-import './endpoints/auth'
-import './endpoints/category'
-import './endpoints/bill'
+import Mock from 'better-mock'
+
+Mock.setup({
+  timeout: '800-1200',
+})

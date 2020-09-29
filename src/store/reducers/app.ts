@@ -1,30 +1,16 @@
-import { AuthStatus } from '../enums'
-
-import type { LoadAuthStatusAction, LoadAllCategoriesAction, Categories } from '../actions/app'
-
-export type AppActions = LoadAuthStatusAction | LoadAllCategoriesAction
-
 export interface AppState {
-  authStatus: AuthStatus
-  categories: Categories
+  // pass
+}
+
+export interface AppActions {
+  type: string
 }
 
 const initialState = (): AppState => ({
-  authStatus: AuthStatus.LOADING,
-  categories: {
-    loading: false,
-    items: [],
-    error: false,
-  },
+  // pass
 })
 
-export default (state: AppState, action: AppActions): AppState => {
-  if (action.type === 'app#authStatus') {
-    return { ...state, ...action.payload }
-  } else if (action.type === 'app#loadAllCategories') {
-    const categories = action.payload
-    return { ...state, categories: { ...state.categories, ...categories } }
-  }
-
+export default (state: AppState): AppState => {
+  // pass
   return state ?? initialState()
 }
