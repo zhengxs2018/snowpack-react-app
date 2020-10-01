@@ -1,29 +1,13 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 
 import { Table, Alert, Input } from 'antd'
 
 import { useUserList } from '../hooks/useUserList'
 
 const UserListPage: FC = () => {
-  const {
-    loading,
-    nickname,
-    items,
-    page,
-    pageSize,
-    total,
-    error,
-    search,
-    refresh,
-    loadPageData,
-    cancel,
-    setNickname,
-  } = useUserList()
-
-  useEffect(() => {
-    refresh()
-    return cancel
-  }, [])
+  const { loading, query, items, page, pageSize, total, error, setValue, search, loadPageData } = useUserList({
+    autoLoad: true,
+  })
 
   const columns = [
     {
@@ -55,12 +39,12 @@ const UserListPage: FC = () => {
       <h1>用户列表</h1>
       {error && <Alert type="error" message="加载错误" description={error.message} closable />}
       <Input
-        value={nickname}
+        value={query.nickname}
         placeholder="回车搜索"
-        onChange={(evt) => setNickname(evt.target.value)}
+        onChange={(evt) => setValue('nickname', evt.target.value.trim())}
         onPressEnter={() => search()}
       />
-      <Table loading={loading} columns={columns} dataSource={items} pagination={pagination} />
+      <Table loading={loading} columns={columns} dataSource={items} pagination={pagination} rowKey="id" />
     </>
   )
 }

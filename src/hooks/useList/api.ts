@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
-import type { UseListOptions, UseListState, LoadOptions, LoadArgs } from './types'
+import type { UseListState, UseListOptions, List, UseListInstance, ListFetchOptions, ListFetchArgs } from './types'
 
 /**
  * 列表 hook 函数
@@ -23,22 +23,22 @@ import type { UseListOptions, UseListState, LoadOptions, LoadArgs } from './type
  *
  * @return 返回列表状态与方法
  */
-export function useList<T>(options: UseListOptions<T>) {
-  const dispatchRequest = options.dispatchRequest
+export function useList<T>(options: UseListOptions<T>): UseListInstance<T> {
+  const onFetch = options.onFetch
 
+  // 列表变更模式
   const mode = options.mode || 'replace'
 
+  // 加载状态
+  const loading = options.loading === true
+
+  // 列表状态
   const [state, setState] = useState<UseListState<T>>({
     items: options.items ?? [],
     page: options.page || 1,
     pageSize: options.pageSize || 10,
     total: options.total || 0,
   })
-
-  /**
-   * 加载状态
-   */
-  const loading = useMemo<boolean>(() => options.loading === true, [options.loading])
 
   /**
    * 是否第一页
@@ -53,20 +53,30 @@ export function useList<T>(options: UseListOptions<T>) {
     state.total,
   ])
 
-  function refresh(options?: LoadOptions) {
-    return load({}, { ...options, refresh: true })
+  /**
+   * 刷新列表
+   *
+   * @param options 刷新配置
+   */
+  function refresh(options?: ListFetchOptions) {
+    return dispatchRequest({}, { ...options, refresh: true })
   }
 
-  function search(args?: Partial<LoadArgs>) {
+  /**
+   * 搜索方法
+   *
+   * @param args 搜索参数
+   */
+  function search(args?: Partial<ListFetchArgs>) {
     // 默认，搜索就跳转回第一页
-    return load({ page: 1, ...args }, { force: true })
+    return dispatchRequest({ page: 1, ...args }, { force: true })
   }
 
   function clear() {
     setState({ items: [], page: 1, pageSize: 10, total: 0 })
   }
 
-  async function load(args?: Partial<LoadArgs>, options?: LoadOptions) {
+  async function dispatchRequest(args?: Partial<ListFetchArgs>, options?: ListFetchOptions) {
     args = args || {}
     options = options || {}
 
@@ -77,21 +87,28 @@ export function useList<T>(options: UseListOptions<T>) {
       if (options.force !== true) return Promise.resolve()
     }
 
-    const res = await dispatchRequest({ page, pageSize }, { ...options, state, mode })
+    const res = await onFetch({ page, pageSize }, { ...options, state, mode })
     if (!res) return
 
     let items: T[] = []
     if (mode === 'manual' || options.refresh === true) {
-      items = res.items
+      items = res.items || []
     } else {
-      items = mode === 'append' ? state.items.concat(res.items) : res.items
+      items = mode === 'append' ? state.items.concat(res.items || []) : res.items || []
     }
 
-    setState({ items, page, pageSize, total: res.total })
+    setState({ items, page: res.page || page, pageSize: res.pageSize || pageSize, total: res.total || 0 })
   }
 
-  function loadPageData(page: number, options?: LoadOptions) {
-    return load({ page }, options)
+  /**
+   * 加载制定页数据
+   *
+   * @param page       指定页
+   * @param options
+   * @param options.force 是否强制刷新
+   */
+  function loadPageData(page: number, options?: ListFetchOptions) {
+    return dispatchRequest({ page }, options)
   }
 
   /**
@@ -100,7 +117,7 @@ export function useList<T>(options: UseListOptions<T>) {
    * @param options
    * @param options.force 是否强制刷新
    */
-  function loadPreviousPageData(options?: LoadOptions) {
+  function loadPreviousPageData(options?: ListFetchOptions) {
     return isFirst ? Promise.resolve() : loadPageData(state.page - 1, options)
   }
 
@@ -110,15 +127,25 @@ export function useList<T>(options: UseListOptions<T>) {
    * @param options 可选项
    * @param options.force 是否强制刷新
    */
-  function loadNextPageData(options?: LoadOptions) {
+  function loadNextPageData(options?: ListFetchOptions) {
     return isEnd ? Promise.resolve() : loadPageData(state.page + 1, options)
   }
 
+  /** 数据转换  */
+  function toJSON(): List<T> {
+    return state
+  }
+
+  useEffect(() => {
+    // 自动加载
+    if (options.autoLoad === true) refresh()
+  }, [])
+
   return {
+    // state
     ...state,
 
     // computed
-    loading,
     isFirst,
     isEnd,
 
@@ -132,5 +159,6 @@ export function useList<T>(options: UseListOptions<T>) {
 
     // sync methods
     clear,
+    toJSON,
   }
 }

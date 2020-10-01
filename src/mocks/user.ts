@@ -1,6 +1,6 @@
 import joi from 'joi'
 
-import { useMockAPI } from '../hooks/useMockAPI/index'
+import { createMockAPI } from '../lib/mock'
 import { createTable, QueryBuilder } from '../lib/fake-db/index'
 
 import type { User } from '../interfaces/user'
@@ -32,7 +32,6 @@ function createQueryBuilder(args: UserListQuery) {
 
   if (nickname) {
     query.where((row: User) => {
-      console.log(row.nickname, nickname)
       return row.nickname.indexOf(nickname as string) > -1
     })
   }
@@ -40,8 +39,7 @@ function createQueryBuilder(args: UserListQuery) {
   return query
 }
 
-useMockAPI('/api/user/list', 'GET', (ctx) => {
+createMockAPI('/api/user/list', 'GET', (ctx) => {
   const result = schema.validate(ctx.query)
-  console.log(result)
   return { code: 200, data: createQueryBuilder(result.value).pagination() }
 })

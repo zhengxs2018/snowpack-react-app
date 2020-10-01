@@ -9,7 +9,7 @@ export interface MockRequest {
   params: Record<string, string | number>
 }
 
-export function useMockAPI(rule: string, type: string, callback: (req: MockRequest) => any) {
+export function createMockAPI(rule: string, type: string, callback: (req: MockRequest) => any) {
   const parse = match(rule)
 
   const qs = (searchParams: URLSearchParams) => {
